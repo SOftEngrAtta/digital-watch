@@ -8,17 +8,16 @@ import { TimeData } from './models/timemodel';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  title = 'digital-watch';
 
-  displaybtn : { play : boolean , pause : boolean } = { play : true , pause : false }
+  displayBtn : { play : boolean , pause : boolean } = { play : true , pause : false }
 
   timer = new TimeData();
 
   ActionType = ['Play' , 'Stop'];
 
-  intervalmethod ; // for clear settimeout method 
+  intervalMethod ; // for clear settimeout method 
 
-  timerlist : Array<any> = [];
+  timerList : Array<any> = []; // timer list save in timerList variable 
   
   constructor(){}
 
@@ -30,11 +29,11 @@ export class AppComponent implements OnInit{
   showtime(action){
     if(this.ActionType[0] == action ) {
       if(this.timer['milsecond'] < 100 ){
-        this.intervalmethod =  setTimeout(()=>{ 
+        this.intervalMethod =  setTimeout(()=>{ 
           this.timer['milsecond'] += 1; this.showtime(this.ActionType[0])
         },10)
       }else{
-        if(this.timer['second'] < 60){
+        if( this.timer['second'] < 59 ){
           this.timer['second'] +=1;
           this.timer['milsecond'] = 0;
           setTimeout(()=>{ this.showtime(this.ActionType[0])},10);
@@ -46,7 +45,7 @@ export class AppComponent implements OnInit{
         }
       }
     }else {
-      clearTimeout(this.intervalmethod);
+      clearTimeout(this.intervalMethod);
     };
   }
 
@@ -55,7 +54,7 @@ export class AppComponent implements OnInit{
    * play functionality 
    * *********************/
   play(){ 
-    this.displaybtn.pause = true ; this.displaybtn.play = false;
+    this.displayBtn.pause = true ; this.displayBtn.play = false;
     this.showtime(this.ActionType[0]);
   }
   
@@ -63,27 +62,35 @@ export class AppComponent implements OnInit{
    * pause functionality 
    * *********************/ 
   pause(){ 
-    this.displaybtn.play = true ; this.displaybtn.pause = false; 
+    this.displayBtn.play = true ; this.displayBtn.pause = false; 
     this.showtime(this.ActionType[1]);
   }
 
 
-  // update timer list functionality 
+  /************************************
+   * update timer list functionality
+   ***********************************/  
   getTimeData(){ 
     if(!this.timer.milsecond){
       alert('please play stop watch');
       return false;
     }
-    this.timerlist.push(Object.assign({},this.timer));
+    this.timerList.push(Object.assign({},this.timer));
   }
 
 
-  // rm item 
-  rmTm(index){this.timerlist.splice(index ,1)}
+  /*********************************
+   * remove time object from array 
+   * @param index time index 
+   ********************************/ 
+  rmTm(index){this.timerList.splice(index ,1)}
 
-  // clear lst and also stop watch time 
+
+  /***************************************************
+   * clear lst and also stop watch time functionality 
+   **************************************************/  
   clrAll(){
-    this.timerlist = [];
+    this.timerList = [];
     this.timer = new TimeData();
     this.pause();
   }
