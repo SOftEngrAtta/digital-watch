@@ -1,0 +1,17 @@
+{
+    "extends": "../tslint.json",
+    "rules": {
+        "directive-selector": [
+            true,
+            "attribute",
+            "digital-watch",
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            "digital-watch",
+            "kebab-case"
+        ]
+    }
+}
